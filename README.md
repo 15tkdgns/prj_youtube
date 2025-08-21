@@ -49,20 +49,6 @@
 - **데이터 저장**: 로컬 스토리지 (`localStorage`)
 - **커스텀 훅**: `useLocalStorage`를 포함한 커스텀 훅 활용
 
-## 폴더 구조
-/src
-├── components/
-│   ├── common/
-│   └── features/
-│       ├── Auth/
-│       └── Scrapbook/
-├── contexts/
-├── hooks/
-├── pages/
-├── utils/
-└── ...
-
-
 ## 구현 계획
 1.  **초기 설정**: React 프로젝트 생성 및 Tailwind CSS, React Router 설치.
 2.  **데이터 모델링**: 로컬 스토리지에 저장될 `users` 데이터 구조 설계.
