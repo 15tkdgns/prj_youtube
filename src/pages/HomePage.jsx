@@ -1,87 +1,115 @@
-// --------------------------------------------------
-// 컴포넌트 import
-// --------------------------------------------------
+// React 훅 import
+import { useState, useEffect } from "react";
 
-// 공용 버튼 컴포넌트 (프로젝트 내에서 공통으로 쓰는 버튼 UI)
+// 공통 버튼 컴포넌트 import
 import Button from "../components/common/Button";
 
-// VideoList 컴포넌트 (추천 영상 목록을 출력하는 역할)
-// 실제 프로젝트 구조에 맞게 import 경로를 수정해야 함
-import VideoList from "../components/features/Scrapbook/VideoList"; 
+// 동영상 리스트 컴포넌트 import
+import VideoList from "../components/features/Scrapbook/VideoList";
 
-// --------------------------------------------------
-// HomePage 컴포넌트
-// --------------------------------------------------
-// 앱의 메인 홈 화면을 구성하는 컴포넌트
-// 좌측에 카테고리 메뉴, 우측에 추천 영상 리스트를 보여주는 구조
+// YouTube API 함수 import
+// - getPopularVideos: 인기 동영상 가져오기
+// - searchVideos: 검색 키워드 기반 동영상 가져오기
+import { getPopularVideos, searchVideos } from "../api/youtubeApi";
+
+/**
+ * HomePage 컴포넌트
+ * - 홈페이지 메인 화면
+ * - 사이드바 카테고리 선택, 동영상 리스트 표시, 로그인/회원가입 버튼 포함
+ */
 export default function HomePage() {
-  // --------------------------------------------------
-  // 임시로 사용할 샘플 영상 데이터
-  // 실제로는 API 호출을 통해 가져오거나 DB에서 불러오게 됨
-  // id: 고유 번호, title: 영상 제목, channel: 업로더 이름
-  const sampleVideos = [
-    { id: 1, title: "React 강의", channel: "코딩유튜버" },
-    { id: 2, title: "게임 리뷰", channel: "게임유튜버" },
-    { id: 3, title: "음악 모음", channel: "음악유튜버" },
-  ];
+  // 상태 관리
+  const [videos, setVideos] = useState([]);                 // 현재 보여줄 동영상 배열
+  const [loading, setLoading] = useState(true);           // 동영상 로딩 상태
+  const [selectedCategory, setSelectedCategory] = useState("전체"); // 선택된 카테고리
+
+  // 사이드바에 표시할 카테고리 배열
+  const categories = ["전체", "게임", "음악", "영화"]; // 필요시 '코딩' 등 추가 가능
+
+  /**
+   * useEffect 훅
+   * - selectedCategory가 바뀔 때마다 실행
+   * - 동영상 API 호출 후 상태 업데이트
+   */
+  useEffect(() => {
+    const fetchVideos = async () => {
+      setLoading(true); // 로딩 시작
+
+      let newVideos = [];
+      if (selectedCategory === "전체") {
+        // '전체' 선택 시 인기 동영상 가져오기
+        newVideos = await getPopularVideos();
+      } else {
+        // 특정 카테고리 선택 시 검색
+        newVideos = await searchVideos(selectedCategory);
+      }
+
+      setVideos(newVideos); // 가져온 동영상 상태로 저장
+      setLoading(false);    // 로딩 완료
+    };
+
+    fetchVideos(); // 비동기 함수 실행
+  }, [selectedCategory]); // selectedCategory가 바뀔 때마다 실행
 
   return (
-    // 전체 레이아웃을 flexbox로 배치
-    // 왼쪽은 aside(사이드 메뉴), 오른쪽은 main(메인 콘텐츠)
+    // 페이지 전체를 flex 레이아웃으로 구성
     <div className="flex w-full">
       
-      {/* --------------------------------------------------
-          사이드바 (왼쪽 메뉴 영역)
-          -------------------------------------------------- */}
+      {/* 사이드바 영역 */}
       <aside className="w-60 bg-gray-100 p-4">
         <ul className="space-y-2">
-          {/* 카테고리 메뉴 리스트 */}
-          {/* hover 시 글자색이 빨간색으로 바뀌게 설정 */}
-          <li className="cursor-pointer hover:text-red-500">전체</li>
-          <li className="cursor-pointer hover:text-red-500">🎮 게임</li>
-          <li className="cursor-pointer hover:text-red-500">🎵 음악</li>
-          <li className="cursor-pointer hover:text-red-500">🎬 영화</li>
+          {categories.map((category) => (
+            <li
+              key={category} // React에서 리스트 렌더링 시 필수 key
+              onClick={() => setSelectedCategory(category)} // 클릭 시 카테고리 변경
+              className={`cursor-pointer hover:text-red-500 ${
+                selectedCategory === category ? "font-bold text-red-500" : ""
+              }`}
+              /*
+                cursor-pointer: 마우스 커서가 손가락 모양으로 변경
+                hover:text-red-500: 마우스 오버 시 글자 빨간색
+                font-bold text-red-500: 현재 선택된 카테고리 강조
+              */
+            >
+              {/* 카테고리별 이모지 표시 */}
+              {category === '게임' && '🎮 '}
+              {category === '음악' && '🎵 '}
+              {category === '영화' && '🎬 '}
+              {category} {/* 실제 카테고리 이름 표시 */}
+            </li>
+          ))}
         </ul>
       </aside>
 
-      {/* --------------------------------------------------
-          메인 콘텐츠 영역 (오른쪽)
-          -------------------------------------------------- */}
+      {/* 메인 컨텐츠 영역 */}
       <main className="flex-1 p-6 bg-white">
-        
-        {/* 상단 영역 : 제목 + 로그인/회원가입 버튼 */}
+        {/* 헤더 영역: 페이지 타이틀 + 로그인/회원가입 버튼 */}
         <div className="flex justify-between items-center mb-6">
-          
-          {/* 홈페이지 메인 타이틀 */}
           <h1 className="text-3xl font-bold">
             Welcome to YouTube Scrapbook 🎬
           </h1>
-          
-          {/* 버튼 영역 */}
-          {/* flex gap-4 → 버튼 사이에 여백 주기 */}
           <div className="flex gap-4">
-            
-            {/* 로그인 버튼 */}
-            {/* Button 컴포넌트는 내부적으로 react-router-dom의 Link를 사용해서
-                "/login" 경로로 이동할 수 있게 만들어져 있음 */}
-            <Button to="/login" className="bg-blue-600">
-              로그인
-            </Button>
-            
-            {/* 회원가입 버튼 */}
-            {/* "/register" 경로로 이동 */}
-            <Button to="/register" className="bg-green-600">
-              회원가입
-            </Button>
+            {/* 커스텀 Button 컴포넌트 사용 */}
+            <Button to="/login" className="bg-blue-600">로그인</Button>
+            <Button to="/register" className="bg-green-600">회원가입</Button>
           </div>
         </div>
-        
-        {/* 추천 영상 섹션 제목 */}
-        <h2 className="text-xl font-semibold mb-4">추천 영상</h2>
-        
-        {/* 영상 목록 출력 */}
-        {/* VideoList 컴포넌트에 props로 sampleVideos 배열을 전달 */}
-        <VideoList videos={sampleVideos} />
+
+        {/* 선택된 카테고리 제목 */}
+        <h2 className="text-xl font-semibold mb-4">
+          {selectedCategory === "전체"
+            ? "대한민국 인기 동영상"
+            : `${selectedCategory} 관련 동영상`}
+        </h2>
+
+        {/* 동영상 리스트 또는 로딩 메시지 */}
+        {loading ? (
+          // 동영상 불러오는 중일 때
+          <p className="text-center">영상을 불러오는 중입니다...</p>
+        ) : (
+          // 동영상 불러오기 완료 시 VideoList 컴포넌트로 전달
+          <VideoList videos={videos} />
+        )}
       </main>
     </div>
   );
