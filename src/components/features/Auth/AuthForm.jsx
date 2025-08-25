@@ -1,49 +1,58 @@
 import { useState } from "react";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function AuthForm({ mode = "login" }) {
-  const { login } = useAuth();
+  const { login, register } = useAuth();
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError("");
+
     if (mode === "login") {
       const success = login(username, password);
       if (!success) {
         setError("아이디 또는 비밀번호가 올바르지 않습니다.");
+      }
+    } else {
+      const success = register(username, password);
+      if (success) {
+        alert("회원가입 성공! 로그인 페이지로 이동합니다.");
+        navigate("/login");
       } else {
-        alert("로그인 성공!");
+        setError("이미 사용 중인 아이디입니다.");
       }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 max-w-sm mx-auto space-y-4 bg-white shadow-md rounded">
-      <h2 className="text-xl font-bold text-center">
-        {mode === "login" ? "로그인" : "회원가입"}
-      </h2>
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+    <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3">
+       {error && <p className="text-red-500 text-sm text-center">{error}</p>}
       <input
         type="text"
         placeholder="아이디"
+        className="border px-4 py-2 rounded-lg"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        className="w-full p-2 border rounded"
+        required
       />
       <input
         type="password"
         placeholder="비밀번호"
+        className="border px-4 py-2 rounded-lg"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="w-full p-2 border rounded"
+        required
       />
       <button
         type="submit"
-        className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="w-full py-2 bg-green-600 text-white rounded-lg shadow hover:shadow-md"
       >
-        {mode === "login" ? "로그인" : "회원가입"}
+        {mode === "login" ? "로그인하기" : "회원가입"}
       </button>
     </form>
   );

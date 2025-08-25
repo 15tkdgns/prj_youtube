@@ -1,38 +1,25 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
-import MenuPage from "./pages/MenuPage";
-import ScrapbookPage from "./pages/ScrapbookPage";
-import ProfilePage from "./pages/ProfilePage";
-import SettingsPage from "./pages/SettingsPage";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import HomePage from './pages/HomePage';
+import ScrapbookPage from './pages/ScrapbookPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import MenuPage from './pages/MenuPage';
 
 function App() {
   return (
+    // <Router>가 가장 바깥을 감싸도록 수정
     <Router>
-      <div className="min-h-screen flex flex-col">
-        <header className="bg-red-500 text-white px-4 py-3 flex items-center gap-4">
-          <h1 className="font-bold text-xl flex-1">
-            <Link to="/" className="hover:opacity-90">
-              유튜브 스크랩북
-            </Link>
-          </h1>
-          <nav className="flex gap-3 text-sm">
-            <Link to="/">Home</Link>
-            <Link to="/scrapbook">Scrapbook</Link>
-            <Link to="/login">Login</Link>
-          </nav>
-        </header>
-        <main className="flex-1 p-4">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/menu" element={<MenuPage />} />
-            <Route path="/scrapbook" element={<ScrapbookPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-          </Routes>
-        </main>
-      </div>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/scrapbook" element={<ScrapbookPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/menu" element={<MenuPage />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }
