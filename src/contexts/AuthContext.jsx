@@ -1,5 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {createContext, useState, useContext} from "react";
 
 // --------------------------------------------------
 // [유틸 함수] localStorage에 사용자 목록(users)을 저장/불러오기
@@ -31,9 +30,6 @@ export const AuthProvider = ({ children }) => {
     () => localStorage.getItem("isLoggedIn") === "true"
   );
 
-  // 페이지 이동을 위해 react-router-dom의 useNavigate 사용
-  const navigate = useNavigate();
-
   // --------------------------------------------------
   // 로그인 함수
   // --------------------------------------------------
@@ -48,7 +44,6 @@ export const AuthProvider = ({ children }) => {
       // 로그인 성공 처리
       setIsAuthenticated(true); // 상태 업데이트
       localStorage.setItem("isLoggedIn", "true"); // localStorage에 로그인 기록 저장
-      navigate("/menu"); // 로그인 성공 후 /menu 페이지로 이동
       return true;
     }
     // 로그인 실패 (아이디/비밀번호 틀림)
@@ -61,7 +56,6 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setIsAuthenticated(false); // 로그인 상태 해제
     localStorage.removeItem("isLoggedIn"); // localStorage 기록 삭제
-    navigate("/"); // 로그아웃 후 홈("/")으로 이동
   };
   
   // --------------------------------------------------
