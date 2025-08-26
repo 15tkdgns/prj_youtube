@@ -5,7 +5,7 @@ import HomePage from './pages/HomePage';
 import ScrapbookPage from './pages/ScrapbookPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import MenuPage from './pages/MenuPage';
+
 
 function App() {
   return (
@@ -17,7 +17,6 @@ function App() {
           <Route path="/scrapbook" element={<ScrapbookPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/menu" element={<MenuPage />} />
         </Routes>
       </AuthProvider>
     </Router>
