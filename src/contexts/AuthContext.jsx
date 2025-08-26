@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo, useCallback } from "react";
+import React, { createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import useLocalStorage from "../hooks/useLocalStorage";
 
@@ -8,19 +8,20 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useLocalStorage("isLoggedIn", false);
   const navigate = useNavigate();
 
-  const login = useCallback(() => {
+  // 로그인 함수
+  const login = () => {
     setIsAuthenticated(true);
     navigate("/menu");
-  }, [navigate, setIsAuthenticated]);
-  const logout = useCallback(() => {
+  };
+
+  // 로그아웃 함수
+  const logout = () => {
     setIsAuthenticated(false);
     navigate("/");
-  }, [navigate, setIsAuthenticated]);
-
-  const value = useMemo(() => ({ isAuthenticated, login, logout }), [isAuthenticated, login, logout]);
+  };
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

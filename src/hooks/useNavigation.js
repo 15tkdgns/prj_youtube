@@ -1,29 +1,29 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useCallback, useMemo } from "react";
 
-// 네비게이션 관련 기능을 제공하는 커스텀 훅
+// 페이지 이동과 현재 페이지 확인을 위한 간단한 훅
 export const useNavigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  const goTo = useCallback((path) => {
+  // 페이지 이동
+  const goTo = (path) => {
     navigate(path);
-  }, [navigate]);
+  };
   
-  const goBack = useCallback(() => {
+  // 뒤로가기
+  const goBack = () => {
     navigate(-1);
-  }, [navigate]);
+  };
   
-  const isActive = useCallback((path) => {
+  // 현재 페이지인지 확인
+  const isActive = (path) => {
     return location.pathname === path;
-  }, [location.pathname]);
-  
-  const currentPath = useMemo(() => location.pathname, [location.pathname]);
+  };
   
   return {
     goTo,
     goBack,
     isActive,
-    currentPath
+    currentPath: location.pathname
   };
 };
