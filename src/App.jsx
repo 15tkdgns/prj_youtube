@@ -8,6 +8,41 @@ import SettingsPage from "./pages/SettingsPage";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import CategoryPage from "./pages/CategoryPage";
 import PlaylistPage from "./pages/PlaylistPage";
+import { useNavigation } from "./hooks/useNavigation";
+
+function Header() {
+  const { isActive } = useNavigation();
+  
+  return (
+    <header className="bg-red-500 text-white px-4 py-3 flex items-center gap-4">
+      <h1 className="font-bold text-xl flex-1">
+        <Link to="/" className="hover:opacity-90">
+          유튜브 스크랩북
+        </Link>
+      </h1>
+      <nav className="flex gap-3 text-sm">
+        <Link 
+          to="/" 
+          className={isActive("/") ? "text-yellow-300 font-bold" : ""}
+        >
+          Home
+        </Link>
+        <Link 
+          to="/scrapbook" 
+          className={isActive("/scrapbook") ? "text-yellow-300 font-bold" : ""}
+        >
+          Scrapbook
+        </Link>
+        <Link 
+          to="/login" 
+          className={isActive("/login") ? "text-yellow-300 font-bold" : ""}
+        >
+          Login
+        </Link>
+      </nav>
+    </header>
+  );
+}
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -22,18 +57,7 @@ function App() {
     <Router>
       <AuthProvider>
       <div className="min-h-screen flex flex-col">
-        <header className="bg-red-500 text-white px-4 py-3 flex items-center gap-4">
-          <h1 className="font-bold text-xl flex-1">
-            <Link to="/" className="hover:opacity-90">
-              유튜브 스크랩북
-            </Link>
-          </h1>
-          <nav className="flex gap-3 text-sm">
-            <Link to="/">Home</Link>
-            <Link to="/scrapbook">Scrapbook</Link>
-            <Link to="/login">Login</Link>
-          </nav>
-        </header>
+        <Header />
         <main className="flex-1 p-4">
           <Routes>
             <Route path="/" element={<HomePage />} />
