@@ -1,8 +1,0 @@
-[33mfd44473[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/routing-hooks[m[33m)[m refactor: simplify hooks and components for beginners - remove complex optimizations
-[33m7d849a6[m feat(navigation): add useNavigation hook with active state and back navigation
-[33mb4555a7[m feat(routing, hooks): add ProtectedRoute, auth context, useLocalStorage/useRouteParam and category/playlist routes
-[33m7902f40[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #7 from ssjwoo/main
-[33mab9cb7f[m 회원가입 구현
-[33mfd44473[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/routing-hooks[m[33m)[m refactor: simplify hooks and components for beginners - remove complex optimizations
-[33m7d849a6[m feat(navigation): add useNavigation hook with active state and back navigation
-[33mb4555a7[m feat(routing, hooks): add ProtectedRoute, auth context, useLocalStorage/useRouteParam and category/playlist routes
