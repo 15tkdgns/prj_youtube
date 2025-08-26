@@ -91,8 +91,8 @@ return (
         </div>
       )}
 
-      <Button to="/menu" className="bg-blue-600 text-white mt-10 px-6 py-3 rounded-lg shadow hover:bg-blue-700">
-        메뉴로 돌아가기
+      <Button to="/" className="bg-blue-600 text-white mt-10 px-6 py-3 rounded-lg shadow hover:bg-blue-700">
+        홈으로 돌아가기
       </Button>
     </div>
   );

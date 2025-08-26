@@ -5,6 +5,7 @@ import MenuPage from "./pages/MenuPage";
 import ScrapbookPage from "./pages/ScrapbookPage";
 import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
+import RegisterPage from "./pages/RegisterPage";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import CategoryPage from "./pages/CategoryPage";
 import PlaylistPage from "./pages/PlaylistPage";
@@ -62,6 +63,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
             <Route path="/category/:category" element={<CategoryPage />} />
             <Route path="/playlist/:playlistId" element={<PlaylistPage />} />
             <Route
