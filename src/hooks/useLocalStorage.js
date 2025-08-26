@@ -7,7 +7,7 @@ export default function useLocalStorage(key, initialValue) {
     try {
       const item = localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
-    } catch {
+    } catch { 
       return initialValue;
     }
   });
