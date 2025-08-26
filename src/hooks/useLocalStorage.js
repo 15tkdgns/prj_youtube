@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-// 로컬스토리지에 값을 저장하고 불러오는 간단한 훅
+// 로컬스토리지에 값을 저장하고 불러오는 훅
 export default function useLocalStorage(key, initialValue) {
   // 초기값 설정
   const [value, setValue] = useState(() => {

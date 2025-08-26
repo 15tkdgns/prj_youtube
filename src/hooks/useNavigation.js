@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 
-// 페이지 이동과 현재 페이지 확인을 위한 간단한 훅
+// 페이지 이동과 현재 페이지 확인을 위한 훅
 export const useNavigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
